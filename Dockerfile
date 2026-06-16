@@ -26,6 +26,7 @@ RUN apt-get update \
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV PORT=8080
 ENV Download__RootPath=/data/downloads
 ENV Download__FFmpegFilePath=/usr/bin/ffmpeg
 

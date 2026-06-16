@@ -25,6 +25,18 @@ let pendingSetup = null;
 /** @type {Map<string, HTMLElement>} */
 const jobElements = new Map();
 
+/** @type {Set<string>} */
+const autoDownloadedJobs = new Set();
+
+function triggerFileDownload(jobId, fileName) {
+  const anchor = document.createElement("a");
+  anchor.href = `/api/downloads/${jobId}/file`;
+  anchor.download = fileName || "download";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
@@ -181,6 +193,7 @@ function upsertJobElement(job) {
   if (job.canDownload) {
     downloadLink.href = `/api/downloads/${job.id}/file`;
     downloadLink.download = job.fileName || "download";
+    downloadLink.title = `Save ${job.fileName || "file"}`;
   }
 
   cancelBtn.hidden = !job.canCancel;
@@ -210,6 +223,18 @@ async function refreshJobs() {
 
   for (const job of jobs) {
     upsertJobElement(job);
+
+    const statusName = normalizeStatus(job.status);
+    if (statusName === "Completed" && job.canDownload && !autoDownloadedJobs.has(job.id)) {
+      autoDownloadedJobs.add(job.id);
+      triggerFileDownload(job.id, job.fileName || job.title);
+      showToast("Saving file to your downloads folder…", "info");
+    }
+
+    if (statusName === "Failed" && job.errorMessage && !autoDownloadedJobs.has(`failed:${job.id}`)) {
+      autoDownloadedJobs.add(`failed:${job.id}`);
+      showToast(job.errorMessage, "error");
+    }
   }
 
   if (jobs.length === 0 && !pendingSetup) {
@@ -273,12 +298,23 @@ async function startDownload() {
 async function checkHealth() {
   try {
     const health = await api("/api/health");
+    if (health.mode === "vercel-stream") {
+      healthLabel.textContent = "Wrong host";
+      healthStatus.className = "health warn";
+      showToast(
+        "This URL is the old Vercel version. Deploy the ASP.NET app on Render or run it locally.",
+        "error"
+      );
+      return;
+    }
+
     if (health.ffmpeg) {
       healthLabel.textContent = "FFmpeg ready";
       healthStatus.className = "health ok";
     } else {
       healthLabel.textContent = "FFmpeg missing";
       healthStatus.className = "health warn";
+      showToast("FFmpeg is missing on the server. Downloads may fail.", "error");
     }
   } catch {
     healthLabel.textContent = "Server offline";
