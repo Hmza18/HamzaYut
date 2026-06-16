@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: hamzayut-web
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Download__RootPath
+        value: /data/downloads
+      - key: Download__FFmpegFilePath
+        value: /usr/bin/ffmpeg
+    disk:
+      name: hamzayut-downloads
+      mountPath: /data/downloads
+      sizeGB: 1

@@ -1,0 +1,9 @@
+**/bin/**
+**/obj/**
+**/.git/**
+YoutubeDownloader/bin/**
+YoutubeDownloader/obj/**
+YoutubeDownloader.Core/bin/**
+YoutubeDownloader.Core/obj/**
+YoutubeDownloader.Web/bin/**
+YoutubeDownloader.Web/obj/**
