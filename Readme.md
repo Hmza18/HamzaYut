@@ -1,73 +1,109 @@
-# YoutubeDownloader
+# HamzaYut
 
-[![Status](https://img.shields.io/badge/status-maintenance-ffd700.svg)](https://github.com/Tyrrrz/.github/blob/prime/docs/project-status.md)
-[![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://tyrrrz.me/ukraine)
-[![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/YoutubeDownloader/main.yml?branch=prime)](https://github.com/Tyrrrz/YoutubeDownloader/actions)
-[![Release](https://img.shields.io/github/release/Tyrrrz/YoutubeDownloader.svg)](https://github.com/Tyrrrz/YoutubeDownloader/releases)
-[![Downloads](https://img.shields.io/github/downloads/Tyrrrz/YoutubeDownloader/total.svg)](https://github.com/Tyrrrz/YoutubeDownloader/releases)
-[![Discord](https://img.shields.io/discord/869237470565392384?label=discord)](https://discord.gg/2SUWKFnHSm)
-[![Fuck Russia](https://img.shields.io/badge/fuck-russia-e4181c.svg?labelColor=000000)](https://twitter.com/tyrrrz/status/1495972128977571848)
+**HamzaYut** is a YouTube video downloader with a modern desktop app and a browser-based web UI. Paste a link, pick your quality and format, and save videos locally — with live progress tracking and support for playlists, channels, and search.
 
-<table>
-    <tr>
-        <td width="99999" align="center">Development of this project is entirely funded by the community. <b><a href="https://tyrrrz.me/donate">Consider donating to support!</a></b></td>
-    </tr>
-</table>
-
-<p align="center">
-    <img src="favicon.png" alt="Icon" />
-</p>
-
-**YoutubeDownloader** is an application that lets you download videos from YouTube.
-You can copy-paste URL of any video, playlist or channel and download it directly in a format of your choice.
-It also supports searching by keywords, which is helpful if you want to quickly look up and download videos.
-
-> [!NOTE]
-> This application uses [**YoutubeExplode**](https://github.com/Tyrrrz/YoutubeExplode) under the hood to interact with YouTube.
-> You can [read this article](https://tyrrrz.me/blog/reverse-engineering-youtube-revisited) to learn more about how it works.
-
-## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/prime/docs/why-so-political.md)</sup>
-
-By using this project or its source code, for any purpose and in any shape or form, you grant your **implicit agreement** to all the following statements:
-
-- You **condemn Russia and its military aggression against Ukraine**
-- You **recognize that Russia is an occupant that unlawfully invaded a sovereign state**
-- You **support Ukraine's territorial integrity, including its claims over temporarily occupied territories of Crimea and Donbas**
-- You **reject false narratives perpetuated by Russian state propaganda**
-
-To learn more about the war and how you can help, [click here](https://tyrrrz.me/ukraine). Glory to Ukraine! 🇺🇦
-
-## Download
-
-- 🟢 **[Stable release](https://github.com/Tyrrrz/YoutubeDownloader/releases/latest)**
-- 🟠 [CI build](https://github.com/Tyrrrz/YoutubeDownloader/actions/workflows/main.yml)
-- 📦 [Scoop](https://scoop.sh/#/apps?q=YoutubeDownloader&p=1&id=2c0182d9ff5edefc525a57d50ead470d8f02184f): `scoop install extras/youtubedownloader` (community-maintained)
-- 📦 [AUR](https://aur.archlinux.org/packages/youtubedownloader): `yay -S youtubedownloader` (community-maintained)
-
-> [!IMPORTANT]
-> To launch the app on MacOS, you may need to first remove the downloaded file from quarantine.
-> You can do that by running the following command in the terminal: `xattr -rd com.apple.quarantine YoutubeDownloader.app`.
-
-> [!NOTE]
-> Community-maintained packages are published independently from this repository and may not always be up to date with the latest release.
-
-> [!NOTE]
-> If you're unsure which build is right for your system, consult with [this page](https://useragent.cc) to determine your OS and CPU architecture.
+> Built on top of [YoutubeDownloader](https://github.com/Tyrrrz/YoutubeDownloader) by [Tyrrrz](https://github.com/Tyrrrz), powered by [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode).
 
 ## Features
 
-- Cross-platform graphical user interface
-- Download videos by URL
-- Download videos from playlists or channels
-- Download videos by search query
-- Selectable video quality and format
-- Automatically embed audio tracks in alternative languages
-- Automatically embed subtitles
-- Automatically inject media tags
-- Log in with a YouTube account to access private content
+### Desktop app (`YoutubeDownloader`)
+- Cross-platform GUI built with Avalonia
+- Download videos by URL, playlist, channel, or search query
+- Choose video quality and container format
+- Embed subtitles, tags, and alternative audio tracks automatically
+- Sign in with a YouTube account for private content
 
-## Screenshots
+### Web app (`YoutubeDownloader.Web`)
+- Clean browser UI — paste a link and download
+- REST API for resolving videos, listing formats, and managing jobs
+- Live download progress in the browser
+- Configurable download folder, parallel limit, and FFmpeg path
+- Auto-downloads FFmpeg when not installed
 
-![list](.assets/list.png)
-![single](.assets/single.png)
-![multiple](.assets/multiple.png)
+## Requirements
+
+- [.NET SDK 10](https://dotnet.microsoft.com/download) (see `global.json`)
+- **FFmpeg** — required for muxing audio/video. The web app can download it automatically on first run; the desktop app will prompt you if it is missing.
+
+## Getting started
+
+Clone the repo:
+
+```bash
+git clone https://github.com/Hmza18/HamzaYut.git
+cd HamzaYut
+```
+
+### Run the web app
+
+```bash
+dotnet run --project YoutubeDownloader.Web
+```
+
+Open [http://localhost:5280](http://localhost:5280) in your browser.
+
+### Run the desktop app
+
+```bash
+dotnet run --project YoutubeDownloader
+```
+
+### Build for release
+
+```bash
+dotnet publish YoutubeDownloader.Web -c Release -o ./publish/web
+dotnet publish YoutubeDownloader -c Release -o ./publish/desktop
+```
+
+## Configuration
+
+Web app settings live in `YoutubeDownloader.Web/appsettings.json`:
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `Download:RootPath` | `Downloads` | Folder where finished files are saved |
+| `Download:ParallelLimit` | `2` | Max concurrent downloads |
+| `Download:FileNameTemplate` | `$title` | Output filename template |
+| `Download:FFmpegFilePath` | `null` | Path to `ffmpeg` binary; auto-detected if unset |
+| `Download:ShouldInjectSubtitles` | `true` | Embed subtitles into the file |
+| `Download:ShouldInjectTags` | `true` | Write metadata tags |
+| `Download:ShouldInjectLanguageSpecificAudioStreams` | `true` | Include alternate audio tracks |
+
+## Web API
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/health` | Service status and FFmpeg availability |
+| `POST` | `/api/resolve` | Resolve a URL, playlist, channel, or search query |
+| `GET` | `/api/videos/{videoId}/options` | List available quality/format options |
+| `POST` | `/api/downloads` | Start a download job |
+| `GET` | `/api/downloads` | List all jobs |
+| `GET` | `/api/downloads/{id}` | Get job status and progress |
+| `DELETE` | `/api/downloads/{id}` | Cancel a running job |
+| `GET` | `/api/downloads/{id}/file` | Download the finished file |
+
+**Resolve example:**
+
+```bash
+curl -X POST http://localhost:5280/api/resolve \
+  -H "Content-Type: application/json" \
+  -d '{"query": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"}'
+```
+
+## Project structure
+
+```
+HamzaYut/
+├── YoutubeDownloader/          # Avalonia desktop application
+├── YoutubeDownloader.Core/     # Shared download, resolve, and tagging logic
+├── YoutubeDownloader.Web/      # ASP.NET Core web app + static frontend
+└── Readme.md
+```
+
+## License
+
+This project is based on [YoutubeDownloader](https://github.com/Tyrrrz/YoutubeDownloader), which is licensed under the [MIT License](License.txt). Modifications in this fork are also released under MIT.
+
+## Disclaimer
+
+This tool is for personal use only. Respect copyright laws and YouTube's Terms of Service. The authors are not responsible for misuse of this software.
