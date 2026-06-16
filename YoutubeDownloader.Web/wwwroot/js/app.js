@@ -14,7 +14,7 @@ const queueCount = document.getElementById("queue-count");
 const downloadList = document.getElementById("download-list");
 const clearCompletedBtn = document.getElementById("clear-completed-btn");
 const healthStatus = document.getElementById("health-status");
-const healthLabel = healthStatus.querySelector(".health-label");
+const healthLabel = healthStatus?.querySelector(".health-label");
 const setupThumbPlaceholder = document.getElementById("setup-thumb-placeholder");
 const toastHost = document.getElementById("toast-host");
 const itemTemplate = document.getElementById("download-item-template");
@@ -25,16 +25,28 @@ let pendingSetup = null;
 /** @type {Map<string, HTMLElement>} */
 const jobElements = new Map();
 
-/** @type {Set<string>} */
-const autoDownloadedJobs = new Set();
+async function saveJobFile(jobId, fileName) {
+  const response = await fetch(`/api/downloads/${jobId}/file`);
+  if (!response.ok) {
+    let message = "Could not download the file.";
+    try {
+      const body = await response.json();
+      message = body.error || message;
+    } catch {
+      // ignore
+    }
+    throw new Error(message);
+  }
 
-function triggerFileDownload(jobId, fileName) {
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
-  anchor.href = `/api/downloads/${jobId}/file`;
+  anchor.href = objectUrl;
   anchor.download = fileName || "download";
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
+  URL.revokeObjectURL(objectUrl);
 }
 
 async function api(path, options = {}) {
@@ -59,6 +71,8 @@ async function api(path, options = {}) {
 }
 
 function showToast(message, type = "info") {
+  if (!toastHost) return;
+
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
   toast.textContent = message;
@@ -71,8 +85,9 @@ function showToast(message, type = "info") {
 }
 
 function setBusy(busy) {
-  resolveBtn.disabled = busy;
-  globalProgress.hidden = !busy;
+  if (resolveBtn) resolveBtn.disabled = busy;
+  if (startDownloadBtn) startDownloadBtn.disabled = busy;
+  if (globalProgress) globalProgress.hidden = !busy;
 }
 
 function replayPanelAnimation(element) {
@@ -82,13 +97,13 @@ function replayPanelAnimation(element) {
 }
 
 function showEmptyState() {
-  emptyState.hidden = false;
-  setupPanel.hidden = true;
+  if (emptyState) emptyState.hidden = false;
+  if (setupPanel) setupPanel.hidden = true;
   pendingSetup = null;
 }
 
 function hideEmptyState() {
-  emptyState.hidden = true;
+  if (emptyState) emptyState.hidden = true;
 }
 
 const STATUS_NAMES = ["Enqueued", "Started", "Completed", "Failed", "Canceled"];
@@ -117,21 +132,27 @@ function statusLabel(status) {
 
 function renderSetup(data) {
   hideEmptyState();
-  setupPanel.hidden = false;
+  if (setupPanel) setupPanel.hidden = false;
   replayPanelAnimation(setupPanel);
   pendingSetup = { video: data.video, options: data.options };
 
-  setupTitle.textContent = data.video.title;
-  setupMeta.textContent = [data.video.author, data.video.duration].filter(Boolean).join(" · ");
+  if (setupTitle) setupTitle.textContent = data.video.title;
+  if (setupMeta) {
+    setupMeta.textContent = [data.video.author, data.video.duration].filter(Boolean).join(" · ");
+  }
 
   if (data.video.thumbnailUrl) {
-    setupThumbnail.hidden = false;
-    setupThumbnail.src = data.video.thumbnailUrl;
-    setupThumbPlaceholder.hidden = true;
+    if (setupThumbnail) {
+      setupThumbnail.hidden = false;
+      setupThumbnail.src = data.video.thumbnailUrl;
+    }
+    if (setupThumbPlaceholder) setupThumbPlaceholder.hidden = true;
   } else {
-    setupThumbnail.hidden = true;
-    setupThumbPlaceholder.hidden = false;
+    if (setupThumbnail) setupThumbnail.hidden = true;
+    if (setupThumbPlaceholder) setupThumbPlaceholder.hidden = false;
   }
+
+  if (!formatSelect) return;
 
   formatSelect.innerHTML = "";
   for (const option of data.options) {
@@ -158,6 +179,7 @@ function upsertJobElement(job) {
   const fill = card.querySelector(".download-progress-fill");
   const track = card.querySelector(".download-progress-track");
   const status = card.querySelector(".download-status");
+  const saveBtn = card.querySelector(".btn-save-file");
   const downloadLink = card.querySelector(".btn-download-file");
   const cancelBtn = card.querySelector(".btn-cancel-job");
 
@@ -189,11 +211,32 @@ function upsertJobElement(job) {
     status.onclick = null;
   }
 
-  downloadLink.hidden = !job.canDownload;
-  if (job.canDownload) {
+  const canSave = statusName === "Completed" && job.canDownload;
+  saveBtn.hidden = !canSave;
+  downloadLink.hidden = !canSave;
+
+  const fileName = job.fileName || job.title || "download";
+  const saveHandler = async () => {
+    try {
+      await saveJobFile(job.id, fileName);
+      showToast("File saved to your downloads folder.", "info");
+    } catch (error) {
+      showToast(error.message, "error");
+    }
+  };
+
+  if (canSave) {
     downloadLink.href = `/api/downloads/${job.id}/file`;
-    downloadLink.download = job.fileName || "download";
-    downloadLink.title = `Save ${job.fileName || "file"}`;
+    downloadLink.download = fileName;
+    downloadLink.title = `Save ${fileName}`;
+    saveBtn.onclick = saveHandler;
+    downloadLink.onclick = (event) => {
+      event.preventDefault();
+      void saveHandler();
+    };
+  } else {
+    saveBtn.onclick = null;
+    downloadLink.onclick = null;
   }
 
   cancelBtn.hidden = !job.canCancel;
@@ -204,49 +247,44 @@ function upsertJobElement(job) {
 }
 
 async function refreshJobs() {
-  const jobs = await api("/api/downloads");
-  const wasHidden = queueSection.hidden;
-  queueSection.hidden = jobs.length === 0;
-  queueCount.textContent = jobs.length ? `(${jobs.length})` : "";
+  try {
+    const jobs = await api("/api/downloads");
+    const wasHidden = queueSection.hidden;
+    queueSection.hidden = jobs.length === 0;
+    queueCount.textContent = jobs.length ? `(${jobs.length})` : "";
 
-  if (wasHidden && jobs.length > 0) {
-    replayPanelAnimation(queueSection);
-  }
-
-  const activeIds = new Set(jobs.map((j) => j.id));
-  for (const [id, element] of jobElements) {
-    if (!activeIds.has(id)) {
-      element.remove();
-      jobElements.delete(id);
-    }
-  }
-
-  for (const job of jobs) {
-    upsertJobElement(job);
-
-    const statusName = normalizeStatus(job.status);
-    if (statusName === "Completed" && job.canDownload && !autoDownloadedJobs.has(job.id)) {
-      autoDownloadedJobs.add(job.id);
-      triggerFileDownload(job.id, job.fileName || job.title);
-      showToast("Saving file to your downloads folder…", "info");
+    if (wasHidden && jobs.length > 0) {
+      replayPanelAnimation(queueSection);
     }
 
-    if (statusName === "Failed" && job.errorMessage && !autoDownloadedJobs.has(`failed:${job.id}`)) {
-      autoDownloadedJobs.add(`failed:${job.id}`);
-      showToast(job.errorMessage, "error");
+    const activeIds = new Set(jobs.map((j) => j.id));
+    for (const [id, element] of jobElements) {
+      if (!activeIds.has(id)) {
+        element.remove();
+        jobElements.delete(id);
+      }
     }
-  }
 
-  if (jobs.length === 0 && !pendingSetup) {
-    showEmptyState();
-  } else {
-    hideEmptyState();
+    for (const job of jobs) {
+      upsertJobElement(job);
+    }
+
+    if (jobs.length === 0 && !pendingSetup) {
+      showEmptyState();
+    } else {
+      hideEmptyState();
+    }
+  } catch {
+    // Keep the UI responsive even if polling fails briefly.
   }
 }
 
 async function resolveQuery() {
   const query = queryInput.value.trim();
-  if (!query) return;
+  if (!query) {
+    showToast("Paste a YouTube link first.", "error");
+    return;
+  }
 
   setBusy(true);
   try {
@@ -271,10 +309,21 @@ async function resolveQuery() {
 }
 
 async function startDownload() {
-  if (!pendingSetup) return;
+  if (!pendingSetup) {
+    showToast("Resolve a video first.", "error");
+    return;
+  }
 
   const optionIndex = Number(formatSelect.value);
+  if (!Number.isFinite(optionIndex)) {
+    showToast("Choose a format first.", "error");
+    return;
+  }
+
+  const originalLabel = startDownloadBtn.textContent;
   setBusy(true);
+  startDownloadBtn.textContent = "Starting…";
+
   try {
     await api("/api/downloads", {
       method: "POST",
@@ -284,25 +333,29 @@ async function startDownload() {
       }),
     });
 
-    setupPanel.hidden = true;
+    if (setupPanel) setupPanel.hidden = true;
     pendingSetup = null;
     queryInput.value = "";
     await refreshJobs();
+    showToast("Download started. Click Save file when it completes.", "info");
   } catch (error) {
     showToast(error.message, "error");
   } finally {
+    startDownloadBtn.textContent = originalLabel;
     setBusy(false);
   }
 }
 
 async function checkHealth() {
+  if (!healthLabel) return;
+
   try {
     const health = await api("/api/health");
     if (health.mode === "vercel-stream") {
       healthLabel.textContent = "Wrong host";
       healthStatus.className = "health warn";
       showToast(
-        "This URL is the old Vercel version. Deploy the ASP.NET app on Render or run it locally.",
+        "This URL is the old Vercel version. Run the ASP.NET app locally or deploy on Render.",
         "error"
       );
       return;
@@ -319,39 +372,49 @@ async function checkHealth() {
   } catch {
     healthLabel.textContent = "Server offline";
     healthStatus.className = "health warn";
+    showToast("Cannot reach the server. Run: dotnet run --project YoutubeDownloader.Web", "error");
   }
 }
 
-resolveBtn.addEventListener("click", resolveQuery);
-queryInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    resolveQuery();
+function initApp() {
+  if (!queryInput || !resolveBtn || !startDownloadBtn || !itemTemplate) {
+    showToast("Download page failed to initialize. Refresh the page.", "error");
+    return;
   }
-});
 
-startDownloadBtn.addEventListener("click", startDownload);
-cancelSetupBtn.addEventListener("click", showEmptyState);
-
-clearCompletedBtn.addEventListener("click", () => {
-  for (const [id, element] of [...jobElements]) {
-    const status = element.querySelector(".download-status");
-    if (status?.classList.contains("completed")) {
-      element.remove();
-      jobElements.delete(id);
+  resolveBtn.addEventListener("click", resolveQuery);
+  queryInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      void resolveQuery();
     }
+  });
+
+  startDownloadBtn.addEventListener("click", () => void startDownload());
+  cancelSetupBtn?.addEventListener("click", showEmptyState);
+
+  clearCompletedBtn?.addEventListener("click", () => {
+    for (const [id, element] of [...jobElements]) {
+      const status = element.querySelector(".download-status");
+      if (status?.classList.contains("completed")) {
+        element.remove();
+        jobElements.delete(id);
+      }
+    }
+    void refreshJobs();
+  });
+
+  void checkHealth();
+  void refreshJobs();
+  setInterval(() => void refreshJobs(), 1000);
+
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get("q") ?? params.get("url");
+  if (initialQuery) {
+    queryInput.value = initialQuery;
+    window.history.replaceState({}, "", window.location.pathname);
+    void resolveQuery();
   }
-  refreshJobs();
-});
-
-checkHealth();
-refreshJobs();
-setInterval(refreshJobs, 1000);
-
-const params = new URLSearchParams(window.location.search);
-const initialQuery = params.get("q") ?? params.get("url");
-if (initialQuery) {
-  queryInput.value = initialQuery;
-  window.history.replaceState({}, "", window.location.pathname);
-  resolveQuery();
 }
+
+initApp();

@@ -581,6 +581,10 @@
   background: var(--warning);
 }
 
+.btn-save-file {
+  min-width: 92px;
+}
+
 .download-actions {
   display: flex;
   gap: 2px;
