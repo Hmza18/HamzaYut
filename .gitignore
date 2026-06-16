@@ -20,8 +20,3 @@ Downloads/
 *.webm
 *.mkv
 .vercel
-
-# Next.js web app
-node_modules/
-.next/
-*.tsbuildinfo

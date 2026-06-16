@@ -55,6 +55,29 @@ dotnet publish YoutubeDownloader.Web -c Release -o ./publish/web
 dotnet publish YoutubeDownloader -c Release -o ./publish/desktop
 ```
 
+### Deploy to Render (full web app)
+
+1. Push this repo to GitHub.
+2. In the [Render dashboard](https://dashboard.render.com), choose **New → Blueprint**.
+3. Connect the repo. Render applies `render.yaml`, which creates a Docker web service with persistent storage for downloads.
+4. Open the generated `.onrender.com` URL when the deploy finishes.
+
+### Deploy to Railway (full web app)
+
+1. Push this repo to GitHub.
+2. Create a project at [railway.app](https://railway.app) and deploy from this repo.
+3. Railway uses `Dockerfile` and `railway.toml`.
+4. Add a volume mounted at `/data/downloads` so finished files persist.
+
+### Run locally with Docker
+
+```bash
+docker build -t hamzayut-web .
+docker run --rm -p 8080:8080 -e PORT=8080 -v hamzayut-data:/data/downloads hamzayut-web
+```
+
+Open [http://localhost:8080](http://localhost:8080).
+
 ## Configuration
 
 Web app settings live in `YoutubeDownloader.Web/appsettings.json`:
