@@ -22,8 +22,8 @@ if (landingForm) {
     const input = document.getElementById("landing-url");
     const query = input?.value.trim() ?? "";
     const target = query
-      ? `/download/?q=${encodeURIComponent(query)}`
-      : "/download/";
+      ? `/download/index.html?q=${encodeURIComponent(query)}`
+      : "/download/index.html";
     window.location.href = target;
   });
 }

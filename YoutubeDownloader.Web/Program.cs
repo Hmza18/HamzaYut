@@ -32,11 +32,21 @@ catch (Exception ex)
     app.Logger.LogWarning(ex, "FFmpeg auto-download failed. Install FFmpeg or set Download:FFmpegFilePath.");
 }
 
+app.Use(
+    async (context, next) =>
+    {
+        var path = context.Request.Path.Value;
+        if (path is "/download" or "/download/")
+            context.Request.Path = "/download/index.html";
+        else if (path is "/privacy" or "/privacy/")
+            context.Request.Path = "/privacy/index.html";
+
+        await next();
+    }
+);
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-app.MapGet("/download", () => Results.Redirect("/download/"));
-app.MapGet("/privacy", () => Results.Redirect("/privacy/"));
 
 app.MapGet("/api/health", () =>
 {
