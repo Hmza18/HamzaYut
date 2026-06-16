@@ -1,6 +1,6 @@
-# HamzaYut
+# hmyut
 
-**HamzaYut** is a YouTube video downloader with a modern desktop app and a browser-based web UI. Paste a link, pick your quality and format, and save videos locally — with live progress tracking and support for playlists, channels, and search.
+**hmyut** is a YouTube video downloader with a modern desktop app and a browser-based web UI. Paste a link, pick your quality and format, and save videos locally — with live progress tracking and support for playlists, channels, and search.
 
 > Built on top of [YoutubeDownloader](https://github.com/Tyrrrz/YoutubeDownloader) by [Tyrrrz](https://github.com/Tyrrrz), powered by [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode).
 
@@ -72,8 +72,8 @@ dotnet publish YoutubeDownloader -c Release -o ./publish/desktop
 ### Run locally with Docker
 
 ```bash
-docker build -t hamzayut-web .
-docker run --rm -p 8080:8080 -e PORT=8080 -v hamzayut-data:/data/downloads hamzayut-web
+docker build -t hmyut-web .
+docker run --rm -p 8080:8080 -e PORT=8080 -v hmyut-data:/data/downloads hmyut-web
 ```
 
 Open [http://localhost:8080](http://localhost:8080).
@@ -116,7 +116,7 @@ curl -X POST http://localhost:5280/api/resolve \
 ## Project structure
 
 ```
-HamzaYut/
+YoutubeDownloader/
 ├── YoutubeDownloader/          # Avalonia desktop application
 ├── YoutubeDownloader.Core/     # Shared download, resolve, and tagging logic
 ├── YoutubeDownloader.Web/      # ASP.NET Core web app + static frontend

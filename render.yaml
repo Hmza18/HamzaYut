@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: hamzayut-web
+    name: hmyut-web
     runtime: docker
     plan: starter
     healthCheckPath: /api/health
@@ -12,6 +12,6 @@ services:
       - key: Download__FFmpegFilePath
         value: /usr/bin/ffmpeg
     disk:
-      name: hamzayut-downloads
+      name: hmyut-downloads
       mountPath: /data/downloads
       sizeGB: 1
