@@ -80,7 +80,7 @@
 
         <Style Selector="dialogHostAvalonia|DialogOverlayPopupHost">
             <Setter Property="Margin" Value="48" />
-            <Setter Property="Background" Value="{DynamicResource MaterialPaperBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SurfaceElevatedBrush}" />
         </Style>
 
         <!--  Snack bar host  -->
@@ -89,12 +89,12 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
 
             <Style Selector="^ /template/ ItemsControl#PART_SnackbarHostItemsContainer materialControls|Card">
-                <Setter Property="Background" Value="{DynamicResource MaterialDarkBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource MaterialDarkForegroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource SurfaceElevatedBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
             </Style>
 
             <Style Selector="^ /template/ ItemsControl#PART_SnackbarHostItemsContainer Button">
-                <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource AccentPrimaryBrush}" />
             </Style>
         </Style>
 
@@ -102,12 +102,66 @@
         <Style Selector="ProgressBar">
             <Setter Property="Minimum" Value="0" />
             <Setter Property="Maximum" Value="1" />
-            <Setter Property="Foreground" Value="{DynamicResource MaterialSecondaryMidBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentGradientBrush}" />
+            <Setter Property="Background" Value="{DynamicResource ProgressTrackBrush}" />
             <Setter Property="materialAssists:TransitionAssist.DisableTransitions" Value="True" />
 
             <Style Selector="^:horizontal">
                 <Setter Property="MinHeight" Value="0" />
             </Style>
+        </Style>
+
+        <Style Selector="ProgressBar.download-progress">
+            <Setter Property="CornerRadius" Value="2" />
+        </Style>
+
+        <Style Selector="ProgressBar.global-progress">
+            <Setter Property="CornerRadius" Value="2" />
+        </Style>
+
+        <!--  Download queue cards  -->
+        <Style Selector="Border.download-card">
+            <Setter Property="Background" Value="{DynamicResource SurfaceElevatedBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtleBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="12,12" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Duration="0:0:0.15" Property="Background" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Border.download-card:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SurfaceOverlayBrush}" />
+        </Style>
+
+        <Style Selector="Border.hero-input-shell">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Duration="0:0:0.15" Property="BorderBrush" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Border.hero-input-shell:focus-within">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimaryBrush}" />
+        </Style>
+
+        <!--  Download action buttons  -->
+        <Style Selector="Button.download-action">
+            <Setter Property="Opacity" Value="0.85" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Duration="0:0:0.12" Property="Opacity" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.download-action:pointerover">
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <!--  Slider  -->
@@ -154,6 +208,15 @@
         <!--  Text box  -->
         <Style Selector="TextBox">
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
         </Style>
 
         <!--  Toggle switch  -->
@@ -172,14 +235,9 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <SolidColorBrush x:Key="ToggleBackgroundBrush" Color="#FFFFFF" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="ToggleBackgroundBrush" Color="#8E8E8E" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://YoutubeDownloader/Themes/AppTheme.axaml" />
+            </ResourceDictionary.MergedDictionaries>
 
             <!--  Text box  -->
             <ControlTheme

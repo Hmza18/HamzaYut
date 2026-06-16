@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Privacy policy for HamzaYut." />
+    <title>Privacy Policy — HamzaYut</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body class="page-site">
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient-orb ambient-orb--1"></div>
+      <div class="ambient-orb ambient-orb--2"></div>
+    </div>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main">
+        <a href="/" class="brand-link">
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <span class="brand-name">HamzaYut</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="/">Home</a>
+          <a href="/download/">Web App</a>
+          <a href="/privacy/" class="is-active">Privacy</a>
+          <a href="https://github.com/Tyrrrz/YoutubeDownloader" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </nav>
+    </header>
+
+    <article class="page-content">
+      <h1>Privacy Policy</h1>
+      <p class="page-lead">Last updated: June 16, 2026</p>
+
+      <p>
+        HamzaYut is a self-hosted application. When you run the web version on your own server or machine,
+        <strong>you</strong> are the operator. This policy describes how the software handles data in typical use.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>
+        The HamzaYut web app does not require user accounts and does not include third-party analytics or advertising
+        trackers. The application processes YouTube URLs and search queries you submit in order to resolve video metadata
+        and perform downloads.
+      </p>
+
+      <h2>Data storage</h2>
+      <p>Downloaded files are stored on the server filesystem in a directory configured by the operator (the download root). Temporary processing files may also be created during conversion. Job status is kept in server memory while the application is running.</p>
+      <ul>
+        <li>Video URLs and titles are used to display download progress in your browser.</li>
+        <li>Completed files remain on disk until the operator deletes them.</li>
+        <li>No data is sent to HamzaYut operators by default beyond what you submit for downloads.</li>
+      </ul>
+
+      <h2>Third-party services</h2>
+      <p>
+        To resolve and download videos, the server communicates with YouTube and related content delivery networks.
+        Google Fonts may be loaded in the browser for typography if you use the bundled web interface. Operators can
+        remove external font dependencies by self-hosting fonts.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>The web application does not set tracking cookies. Standard HTTP sessions are not required to use the downloader.</p>
+
+      <h2>Your responsibilities</h2>
+      <p>
+        If you operate a public instance of this software, you are responsible for securing your server, complying with
+        applicable laws, and informing your users how their data is handled. Only download content you have the right to access.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For questions about the open-source project, visit the
+        <a href="https://github.com/Tyrrrz/YoutubeDownloader" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
+      </p>
+    </article>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-bottom">
+          <p>© 2026 HamzaYut. <a href="/">Home</a> · <a href="/download/">Web App</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/site.js" defer></script>
+  </body>
+</html>

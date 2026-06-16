@@ -85,8 +85,8 @@ public partial class App : Application, IDisposable
 
         this.LocateMaterialTheme<MaterialThemeBase>().CurrentTheme =
             actualTheme == PlatformThemeVariant.Light
-                ? Theme.Create(Theme.Light, Color.Parse("#343838"), Color.Parse("#F9A825"))
-                : Theme.Create(Theme.Dark, Color.Parse("#E8E8E8"), Color.Parse("#F9A825"));
+                ? Theme.Create(Theme.Light, Color.Parse("#1A1D23"), Color.Parse("#FF6B4A"))
+                : Theme.Create(Theme.Dark, Color.Parse("#E8EAED"), Color.Parse("#FF6B4A"));
     }
 
     public override void Initialize()

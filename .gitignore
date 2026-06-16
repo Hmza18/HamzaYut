@@ -13,3 +13,9 @@ obj/
 
 # Test results
 TestResults/
+
+# Downloaded media
+Downloads/
+*.mp4
+*.webm
+*.mkv

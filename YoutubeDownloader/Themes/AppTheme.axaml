@@ -1,0 +1,119 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="SurfaceBaseBrush" Color="#F4F5F7" />
+            <SolidColorBrush x:Key="SurfaceElevatedBrush" Color="#FAFBFC" />
+            <SolidColorBrush x:Key="SurfaceOverlayBrush" Color="#ECEEF2" />
+            <SolidColorBrush x:Key="BorderSubtleBrush" Color="#D8DCE4" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1A1D23" />
+            <SolidColorBrush x:Key="TextMutedBrush" Color="#6B7280" />
+            <SolidColorBrush x:Key="AccentPrimaryBrush" Color="#FF6B4A" />
+            <SolidColorBrush x:Key="AccentSecondaryBrush" Color="#FF8F6B" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="#16A34A" />
+            <SolidColorBrush x:Key="CanceledBrush" Color="#D97706" />
+            <SolidColorBrush x:Key="FailedBrush" Color="#DC2626" />
+            <SolidColorBrush x:Key="ToggleBackgroundBrush" Color="#F8F8F8" />
+            <SolidColorBrush x:Key="ProgressTrackBrush" Color="#E2E5EB" />
+
+            <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0%,50%" EndPoint="100%,50%">
+                <GradientStop Color="#FF6B4A" Offset="0" />
+                <GradientStop Color="#FF8F6B" Offset="1" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="SurfaceBaseBrush" Color="#12141A" />
+            <SolidColorBrush x:Key="SurfaceElevatedBrush" Color="#1C1F28" />
+            <SolidColorBrush x:Key="SurfaceOverlayBrush" Color="#252A35" />
+            <SolidColorBrush x:Key="BorderSubtleBrush" Color="#2E3440" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#E8EAED" />
+            <SolidColorBrush x:Key="TextMutedBrush" Color="#8B929E" />
+            <SolidColorBrush x:Key="AccentPrimaryBrush" Color="#FF6B4A" />
+            <SolidColorBrush x:Key="AccentSecondaryBrush" Color="#FF8F6B" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="#4ADE80" />
+            <SolidColorBrush x:Key="CanceledBrush" Color="#FBBF24" />
+            <SolidColorBrush x:Key="FailedBrush" Color="#F87171" />
+            <SolidColorBrush x:Key="ToggleBackgroundBrush" Color="#8E8E8E" />
+            <SolidColorBrush x:Key="ProgressTrackBrush" Color="#2E3440" />
+
+            <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0%,50%" EndPoint="100%,50%">
+                <GradientStop Color="#FF6B4A" Offset="0" />
+                <GradientStop Color="#FF8F6B" Offset="1" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <FontFamily x:Key="AppFontFamily">Segoe UI, Inter, sans-serif</FontFamily>
+    <CornerRadius x:Key="RadiusSm">8</CornerRadius>
+    <CornerRadius x:Key="RadiusMd">12</CornerRadius>
+    <CornerRadius x:Key="RadiusLg">16</CornerRadius>
+    <Thickness x:Key="PagePadding">24,20</Thickness>
+
+    <ControlTheme
+        x:Key="HeroTextBox"
+        BasedOn="{StaticResource {x:Type TextBox}}"
+        TargetType="{x:Type TextBox}">
+        <Styles>
+            <Style Selector="TextBox">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="MinHeight" Value="52" />
+                <Setter Property="Padding" Value="4,10" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+            </Style>
+        </Styles>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="AccentButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="{x:Type Button}">
+        <Styles>
+            <Style Selector="Button">
+                <Setter Property="Background" Value="{DynamicResource AccentGradientBrush}" />
+                <Setter Property="Foreground" Value="#FAFBFC" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="Padding" Value="12,10" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+
+                <Style Selector="^:pointerover">
+                    <Setter Property="Opacity" Value="0.92" />
+                </Style>
+
+                <Style Selector="^:pressed">
+                    <Setter Property="Opacity" Value="0.85" />
+                </Style>
+
+                <Style Selector="^:disabled">
+                    <Setter Property="Opacity" Value="0.45" />
+                </Style>
+            </Style>
+        </Styles>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="ToolbarIconButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="{x:Type Button}">
+        <Styles>
+            <Style Selector="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+
+                <Style Selector="^:pointerover">
+                    <Setter Property="Background" Value="{DynamicResource SurfaceOverlayBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+                </Style>
+            </Style>
+        </Styles>
+    </ControlTheme>
+</ResourceDictionary>

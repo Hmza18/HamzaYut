@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Download YouTube videos in your browser. Pick quality and format, track progress live, and save files directly — free and open source."
+    />
+    <meta name="theme-color" content="#12141a" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="HamzaYut — Free YouTube Video Downloader" />
+    <meta
+      property="og:description"
+      content="Paste a link, choose your format, and download. Works in the browser with live progress tracking."
+    />
+    <meta property="og:site_name" content="HamzaYut" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="HamzaYut — Free YouTube Video Downloader" />
+    <meta
+      name="twitter:description"
+      content="Paste a link, choose your format, and download. Works in the browser with live progress tracking."
+    />
+    <title>HamzaYut — Free YouTube Video Downloader</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body class="page-site page-landing">
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient-orb ambient-orb--1"></div>
+      <div class="ambient-orb ambient-orb--2"></div>
+    </div>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main">
+        <a href="/" class="brand-link">
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <span class="brand-name">HamzaYut</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="/" class="is-active">Home</a>
+          <a href="/download/">Web App</a>
+          <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/download/" class="nav-cta">Start downloading</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="landing-hero">
+        <div class="landing-hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          Open source · Self-hosted
+        </div>
+        <h1>Download YouTube videos <span>in seconds</span></h1>
+        <p>
+          Paste any YouTube link, pick the quality and format you want, and download straight from your browser. No ads, no clutter.
+        </p>
+
+        <form class="landing-form" id="landing-form">
+          <div class="landing-input-shell">
+            <label class="sr-only" for="landing-url">YouTube URL</label>
+            <input
+              id="landing-url"
+              type="url"
+              inputmode="url"
+              placeholder="https://www.youtube.com/watch?v=…"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="submit" class="btn-primary btn-lg">
+              Download
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </form>
+        <p class="landing-hero-note">Free for personal use. Respect copyright and YouTube's Terms of Service.</p>
+      </section>
+
+      <section class="landing-section" id="features">
+        <div class="landing-section-header">
+          <h2>Everything you need</h2>
+          <p>A focused downloader built for speed and clarity — not bloated with extras you won't use.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <h3>Multiple formats</h3>
+            <p>Choose video quality, audio-only, or container format before you download. See exactly what you're getting.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </div>
+            <h3>Live progress</h3>
+            <p>Watch downloads progress in real time. Cancel anytime, retry failures, and grab files the moment they're ready.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3>Self-hosted</h3>
+            <p>Run it on your own machine or server. Your downloads stay on your infrastructure — no third-party cloud storage.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+            </div>
+            <h3>URL or search</h3>
+            <p>Paste a direct video link, playlist URL, or type a search query to find what you need.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <h3>Direct download</h3>
+            <p>Completed files download straight to your device through the browser — no extra steps or external tools.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3>Open source</h3>
+            <p>Inspect the code, contribute, or fork it for your needs. Built on a proven YouTube download core.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="landing-section">
+        <div class="landing-section-header">
+          <h2>How it works</h2>
+          <p>Three steps from link to file. No account required.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card">
+            <h3>Paste a link</h3>
+            <p>Copy any YouTube video URL and paste it into the downloader. Search queries work too.</p>
+          </article>
+          <article class="step-card">
+            <h3>Pick a format</h3>
+            <p>Review the video details and select your preferred quality, codec, and container format.</p>
+          </article>
+          <article class="step-card">
+            <h3>Download</h3>
+            <p>Hit download and watch the progress bar. Grab the file when it's done — that's it.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="landing-section" id="faq">
+        <div class="landing-section-header">
+          <h2>Common questions</h2>
+          <p>Quick answers before you get started.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Is HamzaYut free?</summary>
+            <p>Yes. HamzaYut is free and open source. You can host it yourself or use an instance someone else runs.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do I need to install anything?</summary>
+            <p>For the web app, just open it in a modern browser. The server needs FFmpeg installed (or it can auto-download it on first run).</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I download playlists?</summary>
+            <p>Playlist batch downloads are not supported yet. The web app currently handles single videos — playlist support is coming.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is this affiliated with YouTube?</summary>
+            <p>No. HamzaYut is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by YouTube or Google.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What about copyright?</summary>
+            <p>Only download content you have the right to access. Respect creators' rights and YouTube's Terms of Service. This tool is for personal, lawful use.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <a href="/" class="brand-link">
+              <div class="brand-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </div>
+              <span class="brand-name">HamzaYut</span>
+            </a>
+            <p>Free, open-source YouTube downloader built for the web. Simple, fast, and focused.</p>
+          </div>
+          <div class="footer-columns">
+            <div class="footer-col">
+              <h3>Product</h3>
+              <ul>
+                <li><a href="/download/">Web App</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#faq">FAQ</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h3>Legal</h3>
+              <ul>
+                <li><a href="/privacy/">Privacy Policy</a></li>
+                <li><a href="https://github.com/Tyrrrz/YoutubeDownloader" target="_blank" rel="noopener">Source Code</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 HamzaYut. Open source under the MIT license. Not affiliated with YouTube or Google.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/site.js" defer></script>
+  </body>
+</html>

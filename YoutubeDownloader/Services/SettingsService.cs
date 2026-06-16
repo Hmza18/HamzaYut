@@ -20,7 +20,7 @@ public partial class SettingsService()
     public partial bool IsUkraineSupportMessageEnabled { get; set; } = true;
 
     [ObservableProperty]
-    public partial ThemeVariant Theme { get; set; }
+    public partial ThemeVariant Theme { get; set; } = ThemeVariant.Dark;
 
     [ObservableProperty]
     public partial Language Language { get; set; }
